@@ -21,8 +21,8 @@ static void register_pid(apr_pool_t *p, server_rec *s)
 
 static int init_time(request_rec *r)
 {
-	apr_table_set(r->notes, "clockinit", clock());	
-	ap_log_error(APLOG_MARK, APLOG_ALERT, 0, NULL, "CLOUD-UFPE: init time process %d", clock());
+	apr_table_set(r->notes, "clockinit", clock());
+	ap_log_error(APLOG_MARK, APLOG_ALERT, 0, NULL, "CLOUD-UFPE: Init CPU time process %6.9f", (double) clock());
 
 	return OK;
 }
@@ -30,19 +30,17 @@ static int init_time(request_rec *r)
 static int end_time(request_rec *r)
 {
 	clock_t init_time = (clock_t) apr_table_get(r->notes, "clockinit");
-	ap_log_error(APLOG_MARK, APLOG_ALERT, 0, NULL, "CLOUD-UFPE: end time process GETTING FROM TABLE: %d", init_time);
-	
 	clock_t end_time = clock();	
-	double elapsed_time = ((double) end_time - init_time) / CLOCKS_PER_SEC;
 
-	ap_log_error(APLOG_MARK, APLOG_ALERT, 0, NULL, "CLOUD-UFPE: end time process - Request duration: %f", elapsed_time);
+	double elapsed_time = end_time - init_time;
+	ap_log_error(APLOG_MARK, APLOG_ALERT, 0, NULL, "CLOUD-UFPE: End request process - Request CPU time: %6.9f", elapsed_time);
+	ap_log_error(APLOG_MARK, APLOG_ALERT, 0, NULL, "CLOUD-UFPE: End request process - Request CPU time in secs: %6.9f", ((end_time - init_time) / (double) CLOCKS_PER_SEC));
 
 	return OK;
 }
 
 static void register_hooks(apr_pool_t *p)
 {
-	//ap_hook_post_config(unique_id_global_init, NULL, NULL, APR_HOOK_MIDDLE);
 	ap_hook_child_init(register_pid, NULL, NULL, APR_HOOK_MIDDLE);
 	ap_hook_post_read_request(init_time, NULL, NULL, APR_HOOK_MIDDLE);
 	ap_hook_log_transaction(end_time, NULL, NULL, APR_HOOK_MIDDLE);
