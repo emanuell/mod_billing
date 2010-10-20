@@ -13,13 +13,13 @@ class BillingServer(object):
 	
 	def send(self, method, params=None):
 		if params:
-			p = urllib.urlencode(params)
+			p = urllib.urlencode(params) #TODO p is a array?
 		
 		url = 'http://' + self.host + ':' + str(self.port) + '/' + self.uri
 		if method == 'post':
 			f = urllib.urlopen(url, p)
 		else:
-			f = urllib.urlopen(url + '?%s' % p)
+			f = urllib.urlopen(url + "/%s/%f" % (params['app'], params['value'])) #TODO change this! (tests params not None)
 		
 		return f.read()
 
