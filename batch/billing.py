@@ -63,7 +63,7 @@ class BillingMonitor(object):
 					changed = True
 				
 				if changed:
-					self.server.send('post', {'app' : self.app, 'value' : urls[url]})
+					self.server.send('post', {'app' : self.app, 'value' : round(float(value), 3)})
 			
 			
 		
