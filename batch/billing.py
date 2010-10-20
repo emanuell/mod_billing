@@ -33,7 +33,7 @@ class BillingMonitor(object):
 	def watch(self, log):
 		urls = {}
 		
-		log.seek(0, log.SEEK_END)
+		log.seek(0, os.SEEK_END)
 		
 		while(True):
 			line = log.readline()
