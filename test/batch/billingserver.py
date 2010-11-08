@@ -15,12 +15,18 @@ class Handler(BaseHTTPRequestHandler):
 		self.send_header('Content-type', 'text/html')	
 		self.end_headers()
 		
-		params = self.get_params(self.rfile, int(self.headers['Content-Length']))
+		try:
+			params = self.get_params(self.rfile, int(self.headers['Content-Length']))
+			
+			app_name = params['app']
+			billing_value = params['value']
+			btype = params['btype']
+			
+		except KeyError, e:
+			params = {}
+			app_name = billing_value = btype = ""
 		
-		app_name = params['app']
-		billing_value = params['value']
-		
-		self.wfile.write('guid:app:%s:value:%s:aisodasdlldkf' % (app_name, billing_value))
+		self.wfile.write('guid:app:%s:value:%s:btype:%s:aisodasdlldkf' % (app_name, billing_value, btype))
 		
 		return
 	

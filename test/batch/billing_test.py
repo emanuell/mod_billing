@@ -13,9 +13,11 @@ class BillingServerTest(unittest.TestCase):
 		assert server.host == 'localhost'
 		assert server.port == 7777
 		
-		params = {'app' : 'test', 'value' : 123}
+		params = {'app' : 'test', 'value' : 123, 'btype' : 'cpu'}
 		
-		self.assertEquals(server.send('cloudmonitor', 'post', params), 'guid:app:test:value:123:aisodasdlldkf')
+		self.assertEquals(server.send('post', params), 'guid:app:test:value:123:btype:cpu:aisodasdlldkf')
+		self.assertEquals(server.send('post', None), 'guid:app::value::btype::aisodasdlldkf')
+		
 	
 
 
