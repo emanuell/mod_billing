@@ -65,7 +65,7 @@ class BillingMonitor(object):
 					changed = True
 				
 				if changed:
-					self.server.send('post', {'app' : self.app, 'value' : round(float(value), 3), 'btype' : 'cpu'})
+					self.server.send('get', {'app' : self.app, 'value' : round(float(value), 3), 'btype' : 'cpu'})
 			
 			
 		
