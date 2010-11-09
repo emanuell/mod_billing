@@ -1,4 +1,11 @@
-Tests!
-Code comments?
 LICENSE
-README
+README (doc install)
+
+apx2 -i -a -c <url/mod_billing.c>
+a2dismod billing
+apache2ctl
+
+ubuntu
+/var/log/apache2
+/var/www/
+/etc/apache2/httpd.conf
